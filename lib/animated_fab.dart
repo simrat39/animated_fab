@@ -115,73 +115,81 @@ class _AnimatedFABState extends State<AnimatedFAB>
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: AnimatedBuilder(
-        animation: width,
-        builder: (context, child) {
-          return Ink(
-            width: width.value + _diameter,
-            height: _diameter,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(_borderRadius),
-              color: widget.backgroundColor,
-            ),
-            child: InkWell(
-              borderRadius: BorderRadius.circular(_borderRadius),
-              onTap: widget.onTap,
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: width.value * widget.contentPaddingFactor,
-                ),
-                child: Center(
-                  child: Stack(
-                    children: [
-                      Center(
+    return AnimatedBuilder(
+      animation: width,
+      builder: (context, child) {
+        return Container(
+          width: width.value + _diameter,
+          height: _diameter,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(_borderRadius),
+            color: widget.backgroundColor,
+          ),
+          child: Center(
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  child: OverflowBox(
+                    child: Center(
+                      child: SizeTransition(
+                        sizeFactor: width,
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
+                            Expanded(
+                              child: AnimatedOpacity(
+                                child: Text(
+                                  widget.text,
+                                  textAlign: TextAlign.end,
+                                  overflow: TextOverflow.clip,
+                                  style: widget.textStyle,
+                                  maxLines: 1,
+                                ),
+                                opacity: width.value / widget.maxWidth,
+                                duration: Duration(milliseconds: 10),
+                              ),
+                            ),
                             SizedBox(
                               width: _diameter / 3.5,
                             ),
-                            widget.icon,
+                            SizedBox(
+                              width: width.value * widget.contentPaddingFactor,
+                            ),
                           ],
                         ),
                       ),
-                      Positioned.fill(
-                        child: Center(
-                          child: SizeTransition(
-                            sizeFactor: width,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Expanded(
-                                  child: AnimatedOpacity(
-                                    child: Text(
-                                      widget.text,
-                                      textAlign: TextAlign.end,
-                                      overflow: TextOverflow.clip,
-                                      style: widget.textStyle,
-                                      maxLines: 1,
-                                    ),
-                                    opacity: width.value / widget.maxWidth,
-                                    duration: _animDuration,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: _diameter / 3.5,
-                                ),
-                              ],
-                            ),
-                          ),
+                    ),
+                  ),
+                ),
+                Center(
+                  child: Row(
+                    children: [
+                      Container(
+                        child: widget.icon,
+                        margin: EdgeInsets.symmetric(
+                          horizontal: _diameter / 3.5,
+                        ),
+                        padding: EdgeInsets.only(
+                          left: width.value * widget.contentPaddingFactor,
                         ),
                       ),
                     ],
                   ),
                 ),
-              ),
+                Positioned.fill(
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(_borderRadius),
+                      onTap: widget.onTap,
+                    ),
+                  ),
+                ),
+              ],
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }
