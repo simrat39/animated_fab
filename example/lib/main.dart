@@ -96,7 +96,12 @@ class _MyHomePageState extends State<MyHomePage> {
         scrollController: scrollController,
         text: 'Confirm',
         maxWidth: 90,
-        backgroundColor: Colors.red,
+        backgroundGradient: LinearGradient(
+          colors: [
+            Color(0xffD387AB),
+            Color(0xffE899DC),
+          ],
+        ),
         onTap: () {
           print("tapped");
         },

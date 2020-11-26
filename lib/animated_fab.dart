@@ -18,9 +18,14 @@ class AnimatedFAB extends StatefulWidget {
       color: Colors.white,
       fontSize: 15,
     ),
-    this.backgroundColor = Colors.red,
     required this.onTap,
-  }) : super(key: key);
+    this.backgroundColor,
+    this.backgroundGradient,
+  })  : assert(!(backgroundColor == null && backgroundGradient == null),
+            "Color and Gradient both can't be null"),
+        assert(!(backgroundColor != null && backgroundGradient != null),
+            "Color and Gradient both can't be defined"),
+        super(key: key);
 
   /// The [ScrollController] which is used by the FAB to get notified when the
   /// user starts scrolling.
@@ -57,8 +62,14 @@ class AnimatedFAB extends StatefulWidget {
   final TextStyle textStyle;
 
   /// The [Color] which is applied to the background of the FAB.
-  /// Default: [Colors.red]
-  final Color backgroundColor;
+  /// [backgroundColor] and [backgroundGradient] both can't be null
+  /// [backgroundColor] and [backgroundGradient] both can't be defined together.
+  final Color? backgroundColor;
+
+  /// The [Gradient] which is applied to the background of the FAB.
+  /// [backgroundColor] and [backgroundGradient] both can't be null
+  /// [backgroundColor] and [backgroundGradient] both can't be defined together.
+  final Gradient? backgroundGradient;
 
   @override
   _AnimatedFABState createState() => _AnimatedFABState();
@@ -124,6 +135,7 @@ class _AnimatedFABState extends State<AnimatedFAB>
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(_borderRadius),
             color: widget.backgroundColor,
+            gradient: widget.backgroundGradient,
           ),
           child: Center(
             child: Stack(
