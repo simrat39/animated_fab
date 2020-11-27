@@ -67,27 +67,14 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       floatingActionButton:
-          getFABS().values.toList().elementAt(Random().nextInt(2)),
+          getFABS().values.toList().elementAt(Random().nextInt(1)),
       floatingActionButtonLocation:
-          getFABS().keys.toList().elementAt(Random().nextInt(2)),
+          getFABS().keys.toList().elementAt(Random().nextInt(1)),
     );
   }
 
   Map<dynamic, dynamic> getFABS() {
     Map<FloatingActionButtonLocation, Widget> fabs = {
-      FloatingActionButtonLocation.centerDocked: AnimatedFAB(
-        icon: Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
-        scrollController: scrollController,
-        text: 'Add',
-        maxWidth: 50,
-        backgroundColor: Colors.teal,
-        onTap: () {
-          print("tapped");
-        },
-      ),
       FloatingActionButtonLocation.endDocked: AnimatedFAB(
         icon: Icon(
           Icons.thumbs_up_down,
@@ -98,14 +85,27 @@ class _MyHomePageState extends State<MyHomePage> {
         maxWidth: 90,
         backgroundGradient: LinearGradient(
           colors: [
-            Color(0xffD387AB),
-            Color(0xffE899DC),
+            Color(0xff7F00FF),
+            Color(0xffE100FF),
           ],
         ),
         onTap: () {
           print("tapped");
         },
       ),
+      // FloatingActionButtonLocation.centerDocked: AnimatedFAB(
+      //   icon: Icon(
+      //     Icons.add,
+      //     color: Colors.white,
+      //   ),
+      //   scrollController: scrollController,
+      //   text: 'Add',
+      //   maxWidth: 50,
+      //   backgroundColor: Colors.teal,
+      //   onTap: () {
+      //     print("tapped");
+      //   },
+      // ),
     };
     return fabs;
   }

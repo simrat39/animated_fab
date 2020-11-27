@@ -21,6 +21,7 @@ class AnimatedFAB extends StatefulWidget {
     required this.onTap,
     this.backgroundColor,
     this.backgroundGradient,
+    this.elevation = 6.0,
   })  : assert(!(backgroundColor == null && backgroundGradient == null),
             "Color and Gradient both can't be null"),
         assert(!(backgroundColor != null && backgroundGradient != null),
@@ -70,6 +71,10 @@ class AnimatedFAB extends StatefulWidget {
   /// [backgroundColor] and [backgroundGradient] both can't be null
   /// [backgroundColor] and [backgroundGradient] both can't be defined together.
   final Gradient? backgroundGradient;
+
+  /// This controls the size of the shadow below the floating action button.
+  // Defaults to 6, the appropriate elevation for floating action buttons. The value is always non-negative.
+  final double elevation;
 
   @override
   _AnimatedFABState createState() => _AnimatedFABState();
@@ -126,82 +131,88 @@ class _AnimatedFABState extends State<AnimatedFAB>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: width,
-      builder: (context, child) {
-        return Container(
-          width: width.value + _diameter,
-          height: _diameter,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(_borderRadius),
-            color: widget.backgroundColor,
-            gradient: widget.backgroundGradient,
-          ),
-          child: Center(
-            child: Stack(
-              children: [
-                Positioned.fill(
-                  child: OverflowBox(
-                    child: Center(
-                      child: SizeTransition(
-                        sizeFactor: width,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Expanded(
-                              child: AnimatedOpacity(
-                                child: Text(
-                                  widget.text,
-                                  textAlign: TextAlign.end,
-                                  overflow: TextOverflow.clip,
-                                  style: widget.textStyle,
-                                  maxLines: 1,
-                                ),
-                                opacity: width.value / widget.maxWidth,
-                                duration: Duration(milliseconds: 10),
-                              ),
-                            ),
-                            SizedBox(
-                              width: _diameter / 3.5,
-                            ),
-                            SizedBox(
-                              width: width.value * widget.contentPaddingFactor,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Center(
-                  child: Row(
-                    children: [
-                      Container(
-                        child: widget.icon,
-                        margin: EdgeInsets.symmetric(
-                          horizontal: _diameter / 3.5,
-                        ),
-                        padding: EdgeInsets.only(
-                          left: width.value * widget.contentPaddingFactor,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Positioned.fill(
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(_borderRadius),
-                      onTap: widget.onTap,
-                    ),
-                  ),
-                ),
-              ],
+    return Material(
+      elevation: widget.elevation,
+      borderRadius: BorderRadius.circular(_borderRadius),
+      color: Colors.transparent,
+      child: AnimatedBuilder(
+        animation: width,
+        builder: (context, child) {
+          return Container(
+            width: width.value + _diameter,
+            height: _diameter,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(_borderRadius),
+              color: widget.backgroundColor,
+              gradient: widget.backgroundGradient,
             ),
-          ),
-        );
-      },
+            child: Center(
+              child: Stack(
+                children: [
+                  Positioned.fill(
+                    child: OverflowBox(
+                      child: Center(
+                        child: SizeTransition(
+                          sizeFactor: width,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Expanded(
+                                child: AnimatedOpacity(
+                                  child: Text(
+                                    widget.text,
+                                    textAlign: TextAlign.end,
+                                    overflow: TextOverflow.clip,
+                                    style: widget.textStyle,
+                                    maxLines: 1,
+                                  ),
+                                  opacity: width.value / widget.maxWidth,
+                                  duration: Duration(milliseconds: 10),
+                                ),
+                              ),
+                              SizedBox(
+                                width: _diameter / 3.5,
+                              ),
+                              SizedBox(
+                                width:
+                                    width.value * widget.contentPaddingFactor,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: Row(
+                      children: [
+                        Container(
+                          child: widget.icon,
+                          margin: EdgeInsets.symmetric(
+                            horizontal: _diameter / 3.5,
+                          ),
+                          padding: EdgeInsets.only(
+                            left: width.value * widget.contentPaddingFactor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Positioned.fill(
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(_borderRadius),
+                        onTap: widget.onTap,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }
