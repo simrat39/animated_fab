@@ -3,7 +3,7 @@
 ## Description:
 ### A Gmail like FloatingActionButton which expands when the user scrolls up.
 
-![Fab1](./fab2.gif) ![Fab2](./fab.gif)
+![Fab3](./fab3.gif)
 
 ## Usage:
 ### In your scaffold:
